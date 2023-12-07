@@ -1,0 +1,109 @@
+.progress-grid-container{
+    height: 80vh;
+    width : 90vw;
+    padding-left: 10px;
+    background-color: #fff;
+    display: grid;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress-grid-container > div {
+    text-align: center;
+    font-size:30px;
+    grid-template-columns: repeat(10,1fr);
+  }
+.progress-bars{
+    background-color:#fff;
+    background-size: contain;
+    width: 100%;
+    padding: 20px;
+    
+}
+
+@import url("https://fonts.googleapis.com/css?family=Lato:300");
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: "Lato";
+  font-size: 20px;
+  background-color: #ffffff;
+  
+}
+
+.wrap-circles {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 1rem;
+  background: #fff;
+}
+
+.circle {
+  position: relative;
+  width: 150px;
+  height: 150px;
+  margin: 0.5rem;
+  border-radius: 50%;
+  background: #093261;
+  overflow: hidden;
+  font-size: 13px;
+}
+.circle.per-25 {
+  background-image: conic-gradient(aqua 25%, #093261 0);
+}
+.circle.per-50 {
+  background-image: conic-gradient(aqua 50%, #093261 0);
+}
+.circle.per-75 {
+  background-image: conic-gradient(aqua 75%, #093261 0);
+}
+
+.circle .inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 115px;
+  height: 115px;
+  background: #fff;
+  border-radius: 50%;
+  font-size: 1.85em;
+  font-weight: 300;
+  color: #000;
+}
+.progress-graph1{
+    background-color: aqua;
+}
+
+.progress-graph2{
+    background-color: aqua;
+ 
+}
+
+:root {
+  --primary-color: #fff; /* try #212121 also for dark mode */
+  --background-color: #fff;
+  --font: sans-serif;
+  width: 90vw;
+  height: 10vh;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--background-color);
+  font-family: var(--font);
+  display: flex;
+  justify-content: center;
+}
+
