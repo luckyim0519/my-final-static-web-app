@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+  "contentVersion": "1.0.0.0",
+  "parameters": {
+    "azureBotId": {
+      "value": "chat-bot-classroom"
+    },
+    "azureBotSku": {
+      "value": "F0"
+    },
+    "azureBotRegion": {
+      "value": "global"
+    },
+    "botEndpoint": {
+      "value": "https://classroom-app.azurewebsites.net/api/messages"
+    },
+    "appType": {
+      "value": "UserAssignedMSI"
+    },
+    "appId": {
+      "value": "b76591a9-6ad9-444c-b335-fb65f7e8837a"
+    },
+    "UMSIName": {
+      "value": "chatbot"
+    },
+    "UMSIResourceGroupName": {
+      "value": "my-first-static-web-app"
+    },
+    "tenantId": {
+      "value": "44376307-b429-42ad-8c25-28cd496f4772"
+    }
+  }
+}
