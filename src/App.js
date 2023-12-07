@@ -1,64 +1,62 @@
-import React, { useState, useEffect } from 'react';
-import ReactDOM from "react-dom";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import React, { useState } from 'react';
+import { Container } from 'reactstrap';
+import { getTokenOrRefresh } from './token_util';
+import './custom.css';
+import { ResultReason } from 'microsoft-cognitiveservices-speech-sdk';
 
-import './App.css';
+const speechsdk = require('microsoft-cognitiveservices-speech-sdk');
 
-import Header from './components/Header/Header.jsx'; 
-import Layout from "./pages/Layout";
-import Home from "./pages/Home";
-import Lectures from "./pages/Lectures";
-import NoPage from "./pages/NoPage";
+export default function App() {
+  const [displayText, setDisplayText] = useState('5s_Promo.mp3 size=123644bytes - \n scrib leo. We draw the world to your idea');
+  const [player, updatePlayer] = useState({ p: undefined, muted: false });
 
-import Classroom from "./myclassroom_page/main.jsx";
-import MyProgress from "./myclassroom_page/myProgress.jsx";
+  async function fileChange(event) {
+    const audioFile = event.target.files[0];
+    console.log(audioFile);
+    const fileInfo = audioFile.name + ` size=${audioFile.size} bytes `;
 
-function App() {
-  const [data, setData] = useState('');
+    setDisplayText(fileInfo);
 
-  useEffect(() => {
-    (async function () {
-      const { text } = await( await fetch(`/api/message`)).json();
-      setData(text);
-    })();
-  });
+    const tokenObj = await getTokenOrRefresh();
+    const speechConfig = speechsdk.SpeechConfig.fromAuthorizationToken(tokenObj.authToken, tokenObj.region);
+    speechConfig.speechRecognitionLanguage = 'en-US';
+
+    const audioConfig = speechsdk.AudioConfig.fromWavFileInput(audioFile);
+    const recognizer = new speechsdk.SpeechRecognizer(speechConfig, audioConfig);
+
+    recognizer.recognizeOnceAsync((result) => {
+      let text;
+      if (result.reason === ResultReason.RecognizedSpeech) {
+        text = `RECOGNIZED: Text=${result.text}`;
+      } else {
+        text = 'ERROR: Speech was cancelled or could not be recognized. Ensure your microphone is working properly.';
+      }
+
+      setDisplayText(fileInfo + text);
+    });
+  }
 
   return (
-  <div>
-    {data}
-      <h1>Static Web Apps Database Connections</h1>
-    <blockquote>
-        Open the console in the browser developer tools to see the API responses.
-    </blockquote>
-    <div>
-        <button id="list" onclick="list()">List</button>
-        <button id="get" onclick="get()">Get</button>
-        <button id="update" onclick="update()">Update</button>
-        <button id="create" onclick="create()">Create</button>
-        <button id="delete" onclick="del()">Delete</button>
-    </div>
-    <script>
-        // add JavaScript here
-    </script>
-    <div className="App">
-      <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Layout />}>
-            <Route index element={<Home />} />
-            <Route path="/myclassroom" element={<Classroom />} />
-            <Route path="/my-progress" element={<MyProgress />} />
-            <Route path="/lectures" element={<Lectures />} />
-            <Route path="*" element={<NoPage />} />
-          </Route>
-        </Routes>
-      </BrowserRouter>
-      <Header />
-        <p>MS Hackathons-nevergiveup</p>
-    </div>
-  </div>
-  
+    <Container className="app-container">
+      <h1 className="display-4 mb-3">Speech to Text</h1>
+
+      <div className="row main-container">
+        <div className="col-6">
+          <label htmlFor="audio-file">
+            <i className="fas fa-file-audio fa-lg mr-2"></i>
+          </label>
+          <input
+            type="file"
+            id="audio-file"
+            onChange={(e) => fileChange(e)}
+            style={{ display: 'none' }}
+          />
+          Convert speech to text from an audio file.
+        </div>
+        <div className="col-6 output-display rounded">
+          <code>{displayText}</code>
+        </div>
+      </div>
+    </Container>
   );
 }
-
-const rootElement = document.getElementById("root");
-ReactDOM.render(<App />, rootElement);

@@ -1,0 +1,25 @@
+.main-container {
+    margin-top: 100px;
+}
+
+.fa-file-audio {
+    color: #FF652F;
+}
+
+.fa-file-audio:hover {
+    color: #d44916;
+}
+
+.output-display {
+    background-color: rgb(15, 44, 23);
+    height: 700px;
+}
+
+.fas, .fa {
+    cursor: pointer;
+}
+
+.background {
+    background-color: rgb(255, 255, 255);
+    color: #747474;
+}
